@@ -1,18 +1,18 @@
 <template>
-  <div class="app">
-    <message-converter class="converter" />
-  </div>
+    <div class="app">
+        <message-converter class="converter" />
+    </div>
 </template>
 
 <script>
-import MessageConverter from '@/components/MessageConverter'
+    import MessageConverter from '@/components/MessageConverter'
 
-export default {
-  name: 'App',
-  components: {
-    MessageConverter
-  }
-}
+    export default {
+        name: 'App',
+        components: {
+            MessageConverter
+        }
+    }
 </script>
 
 <style>
@@ -25,7 +25,9 @@ html {
 .app {
   display: flex;
   justify-content: center;
-  align-items: center;
-  height: 100vh;
+  padding-top: 7rem;
+}
+.converter {
+    width: 90%;
 }
 </style>

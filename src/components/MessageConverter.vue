@@ -1,65 +1,112 @@
 <template>
-  <div class="container">
-    <form @submit.prevent="convertString">
-      <textarea
-        v-model="inputMessage"
-        class="inputMessage"
-        maxlength="160"
-      ></textarea>
-      <button type="submit" class="convert-btn">Convert to basic L33t</button>
-    </form>
-    <div class="outputMessage">
-      {{ outputMessage }}
+    <div class="container">
+        <textarea
+            v-model="inputMessage"
+            class="inputMessage"
+            maxlength="160"
+        />
+        <div class="buttons-group">
+            <h2>Convert to</h2>
+            <div class="convert-btn" @click="convertToBasicLeet">
+                Basic L33t
+            </div>
+            <div class="convert-btn" @click="convertToAdvancedLeet">
+                Advanced L33t
+            </div>
+        </div>
+        <div class="outputMessage">
+            {{ outputMessage }}
+        </div>
     </div>
-  </div>
 </template>
 
 <script>
-export default {
-  name: 'MessageConverter',
-  data() {
-    return {
-      inputMessage: '',
-      outputMessage: ''
+    import * as dictionary from '@/leet-dictionary'
+    export default {
+        name: 'MessageConverter',
+        data() {
+            return {
+                inputMessage: '',
+                outputMessage: ''
+            }
+        },
+        methods: {
+            convertToBasicLeet() {
+                this.outputMessage = ''
+                let lettersArray = this.inputMessage.toLowerCase().split('')
+                lettersArray.map(letter => {
+                    if (dictionary.alphabetBasic.hasOwnProperty(letter)) {
+                        this.outputMessage += dictionary.alphabetBasic[letter]
+                    } else {
+                        this.outputMessage += letter
+                    }
+                })
+            },
+            convertToAdvancedLeet() {
+                this.outputMessage = ''
+                let lettersArray = this.inputMessage.split('')
+                lettersArray.map(letter => {
+                    if (dictionary.alphabetAdvanced.hasOwnProperty(letter)) {
+                        this.outputMessage += dictionary.alphabetAdvanced[letter]
+                    } else {
+                        this.outputMessage += letter
+                    }
+                })
+            },
+            getAllLetterVars(target) {
+                const letterVars = dictionary[target]
+                const randomNumber = Math.floor(Math.random() * letterVars.length)
+                return letterVars[randomNumber]
+            }
+        }
     }
-  },
-  methods: {
-    convertString() {
-      this.outputMessage = this.inputMessage
-    }
-  }
-}
 </script>
 
-<!-- Add "scoped" attribute to limit CSS to this component only -->
 <style scoped>
 .container {
-  max-width: 600px;
-  display: flex;
-  flex-direction: column;
+    display: flex;
+}
+.inputMessage,
+.outputMessage {
+	width: 475px;
+	resize: none;
+	height: 300px;
+	font-size: 1.5rem;
+	padding: 1rem;
 }
 .inputMessage {
-  width: 600px;
-  max-width: 600px;
-  height: 300px;
-  max-height: 600px;
-  font-size: 1.5rem;
-  padding: 1rem;
-  border: 1px solid #407076;
+	border: 1px solid #407076;
+}
+.outputMessage {
+	background-color: #c1cad6;
+	color: #407076;
+}
+.buttons-group {
+	padding: 1rem 0;
+	display: flex;
+    flex-direction: column;
+    align-items: center;
 }
 .convert-btn {
-  font-size: 1.5rem;
-  padding: 1rem 1.5rem;
-  background-color: #dde1e4;
-  color: #407076;
-  border: none;
-  border-radius: 10px;
-  transition: all 0.15s ease-in-out;
+	font-size: 1.2rem;
+    font-weight: 600;
+	padding: 0.5rem 1rem;
+    margin: 0 1rem;
+	background-color: #dde1e4;
+	color: #407076;
+	border: none;
+	border-radius: 10px;
+	cursor: pointer;
+    text-align: center;
+	transition: all 0.15s ease-in-out;
+}
+.convert-btn + .convert-btn {
+    margin-top: 1rem;
 }
 .convert-btn:hover {
-  background-color: #bdbfc0;
+	background-color: #bdbfc0;
 }
 .convert-btn:active {
-  transform: scale(0.9);
+	transform: scale(0.9);
 }
 </style>
